@@ -1,16 +1,27 @@
-# Wrist EDA recoverability — analysis code
+# Bounds on wearable EDA estimation — analysis code
 
 Code and derived features for:
 
-> Huang, S.-F. *Wrist Electrodermal Activity Is Not Recoverable from Cardiac and
-> Motion Signals: A Leave-One-Subject-Out Analysis of 15 Subjects in Free-Living
-> Conditions.*
+> Huang, S.-F. *Bounds on Estimating Electrodermal Activity from Wrist-Available
+> Signals: Evidence from Two Public Datasets and a Paired-Measurement Ceiling.*
 
-The study asks whether wrist electrodermal activity (EDA) can be estimated from
+The study asks how much wrist electrodermal activity (EDA) can be recovered from
 signals a standard wrist wearable already provides — heart rate, heart rate
-variability, motion and skin temperature. Under leave-one-subject-out (LOSO)
-validation it cannot: best R² = 0.094, positive in 4 of 15 participants. The
-same models under random 5-fold cross-validation report R² up to 0.670.
+variability, motion and skin temperature — and what sets the limit.
+
+Under leave-one-subject-out validation, estimation reaches R² = 0.094 in
+free-living recordings (PPG-DaLiA) and R² = 0.158 in laboratory recordings with
+arousal experimentally induced (WESAD). The laboratory result is a positive
+control: it shows the pipeline detects an association where one exists, so the
+free-living null describes those data rather than the method. That association
+nonetheless improves on predicting each participant's own mean by only 11.9%,
+sits mostly between protocol conditions rather than within them, and transfers
+to no unseen condition (leave-one-condition-out R² = −0.75).
+
+A ceiling explains the shortfall. Wrist and chest EDA, recorded simultaneously
+and both measured directly, correlate at only r = 0.485 — falling to 0.378 under
+stress, and negative in one participant. No indirect estimate of skin conductance
+at one site can exceed what direct measurement at another achieves.
 
 ## Data
 
