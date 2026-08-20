@@ -35,8 +35,10 @@ reference in Section 4.6 of the paper.
 | File | Purpose |
 |---|---|
 | `dalia_features.py` | Reads the per-subject pickles; builds 60 s / 10 s-hop windows; RR-interval cleaning, HRV, EDA tonic/phasic split, gravity-removed motion, wrist-PPG peak detection |
-| `dalia_analysis.py` | Descriptives, pooled vs within-subject correlations, LOSO and 5-fold regression over four nested feature sets, per-subject breakdown, permutation importance, PPG-vs-ECG comparison |
-| `make_figures.py` | Publication figures (600 dpi, TrueType-embedded, colourblind-safe) |
+| `dalia_analysis.py` | Descriptives, pooled vs within-subject correlations, LOSO and 5-fold regression over four nested feature sets, per-subject breakdown, permutation importance |
+| `ppg_coverage_sweep.py` | Sweeps the artifact-rejection threshold across all 15 subjects, producing the accuracy–coverage trade-off of Table 5 |
+| `make_figures.py` | Figures 1–3 (600 dpi, TrueType-embedded, colourblind-safe) |
+| `make_fig4.py` | Figure 4, the accuracy–coverage trade-off |
 | `dalia_figs.py` | Supporting exploratory plots |
 | `extract_e4.py`, `probe_pkl.py` | Archive extraction and pickle inspection helpers |
 
@@ -45,7 +47,24 @@ reference in Section 4.6 of the paper.
 `dalia_out/windows.csv` holds the 12,864 window-level feature rows derived from
 PPG-DaLiA, so the modelling results can be reproduced without downloading and
 reprocessing the raw dataset. `dalia_out/per_subject_r2.csv` holds the
-per-participant LOSO scores plotted in Figure 1c.
+per-participant LOSO scores plotted in Figure 1c. `dalia_out/ppg_sweep.csv`
+holds one row per window per rejection threshold (101,616 rows), and
+`ppg_sweep_summary.csv` the aggregated curve.
+
+## Why the wrist-PPG comparison is reported as a sweep
+
+An earlier version of this analysis quoted a single agreement statistic for
+wrist-PPG RMSSD: a bias of +61 ms at a 25% artifact-rejection threshold. That
+number is reproducible from this code, but it should not have been presented
+as a property of the device. Holding beat detection fixed and varying only the
+rejection threshold moves the bias from +81.8 ms (49.5% of windows retained)
+to +6.4 ms (2.7% retained).
+
+What survives is the more useful result, and it is the one the paper reports:
+agreement peaks at r = 0.585 and declines thereafter, the smallest achievable
+bias is still about a quarter of the reference value, and the strictest
+thresholds preferentially retain windows of genuinely lower variability. Run
+`ppg_coverage_sweep.py` to reproduce the whole curve.
 
 ## Reproducing the reported numbers
 
@@ -67,8 +86,9 @@ Which output maps to what:
 | Table 2 (pooled vs within-subject r) | `dalia_analysis.py`, section 2 |
 | Table 3 (LOSO vs 5-fold) | `dalia_analysis.py`, section 3 |
 | Table 4 (permutation importance) | `dalia_analysis.py`, section 5 |
-| Table 5 (PPG vs ECG HRV) | `dalia_analysis.py`, section 6 |
+| Table 5 (accuracy–coverage sweep) | `ppg_coverage_sweep.py` |
 | Figures 1–3 | `make_figures.py` |
+| Figure 4 | `make_fig4.py` |
 
 ## Two implementation details that change the answer
 
