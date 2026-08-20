@@ -189,7 +189,18 @@ save(fig, "figure1")
 # ══════════════════════════════════════════════════════════════════
 # FIGURE 2  Bland-Altman (two panels, double column)
 # ══════════════════════════════════════════════════════════════════
-both = df.dropna(subset=["ppg_rmssd", "ecg_rmssd"])
+# Draw this on exactly the rows Table 5 reports at the 25% threshold, not on
+# whatever survived dropna in windows.csv. The two sets differ slightly (4,851
+# vs 4,888 windows) because the sweep requires only an ECG-valid window while
+# the feature table also requires EDA, temperature and motion; a caption
+# quoting one n beside a panel computed from the other invites exactly the
+# comparison a reviewer would make between Figure 2 and Table 5.
+_sw = pd.read_csv(OUT / "ppg_sweep.csv")
+_sw = _sw[(_sw.tol == 0.25) & (_sw.kept == 1)]
+both = _sw.merge(df[["subject", "t_start"]], on=["subject", "t_start"],
+                 how="inner")
+both = both.rename(columns={"ppg_hr": "ppg_hr", "ecg_hr": "ecg_hr"})
+print(f"figure 2 drawn on {len(both):,} windows (Table 5, 25% threshold)")
 fig, ax = plt.subplots(1, 2, figsize=(W2, 6.4 * CM))
 for a, m, unit, tag in [(ax[0], "hr", "bpm", "(a)"),
                         (ax[1], "rmssd", "ms", "(b)")]:
