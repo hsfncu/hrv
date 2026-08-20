@@ -1,0 +1,16 @@
+# raw dataset — download from UCI, never commit
+PPG_FieldStudy/
+*.pkl
+*.zip
+
+# environments and caches
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# nothing from the industry project belongs in this repository
+simulator.py
+run_analysis.py
+sim_out/
+*.log
