@@ -120,9 +120,35 @@ def split_eda(eda, fs=FS_EDA, cutoff=0.05):
     return tonic, eda - tonic
 
 
+def to_g(acc):
+    """Convert wrist acceleration to g, inferring the scale from gravity.
+
+    Empatica exports appear at two scales depending on the distribution:
+    PPG-DaLiA ships values already in g (range about -2..2), while WESAD
+    ships raw counts (-128..127, i.e. 64 counts per g). Hard-coding a
+    divisor silently rescales one of them -- an earlier version of this
+    file divided the DaLiA data by 64 and reported dynamic acceleration
+    64x too small. The ordering across activities was unaffected, which is
+    why the error survived inspection.
+
+    Gravity settles it: a wrist accelerometer must read about 1 g in
+    magnitude overall, so the divisor is whichever makes that true.
+    """
+    a = np.asarray(acc, float)
+    med = float(np.median(np.linalg.norm(a, axis=1)))
+    div = 1.0 if med < 4.0 else 64.0
+    scaled = a / div
+    check = float(np.median(np.linalg.norm(scaled, axis=1)))
+    if not 0.7 <= check <= 1.3:
+        raise ValueError(
+            f"acceleration scale not recognised: raw median |a| = {med:.2f}, "
+            f"after /{div:g} it is {check:.2f} g, expected about 1 g")
+    return scaled
+
+
 def motion(acc, fs=FS_ACC):
     """Strip gravity, return dynamic acceleration magnitude in g."""
-    g = np.asarray(acc, float) / 64.0
+    g = to_g(acc)
     b, a = butter(2, 0.3 / (fs / 2), btype="high")
     return np.linalg.norm(filtfilt(b, a, g, axis=0), axis=1)
 

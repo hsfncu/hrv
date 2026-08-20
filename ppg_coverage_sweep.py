@@ -1,4 +1,4 @@
-"""
+﻿"""
 Accuracy-coverage trade-off for wrist-PPG heart rate variability.
 
 A single agreement statistic for wrist-PPG RMSSD is not a property of the
@@ -85,7 +85,9 @@ def bvp_peak_times(bvp, fs=FS_BVP):
 
 
 def motion_series(acc, fs=FS_ACC):
-    g = np.asarray(acc, float) / 64.0
+    # DaLiA ships acceleration already in g; dividing by 64 here scaled it
+    # 64x too small. See to_g() in dalia_features.py.
+    g = np.asarray(acc, float)
     b, a = butter(2, 0.3 / (fs / 2), btype="high")
     return np.linalg.norm(filtfilt(b, a, g, axis=0), axis=1)
 
@@ -179,3 +181,4 @@ def report(df):
 
 if __name__ == "__main__":
     report(run())
+
