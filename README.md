@@ -14,10 +14,21 @@ same models under random 5-fold cross-validation report R² up to 0.670.
 
 ## Data
 
-The analysis uses **PPG-DaLiA**, which is not redistributed here. Download it
-from the UCI Machine Learning Repository:
+Two public datasets, neither redistributed here.
 
+**PPG-DaLiA** — free-living, 15 adults, eight daily activities.
 <https://archive.ics.uci.edu/dataset/495/ppg+dalia>
+
+**WESAD** — laboratory, 15 adults, Trier Social Stress Test protocol. Same
+instrument pair (chest RespiBAN, wrist Empatica E4), and additionally carries
+chest EDA, which is what makes the agreement ceiling in the paper measurable.
+No registration or agreement is required; the licence permits scientific
+non-commercial use with credit to the dataset authors.
+<https://ubi29.informatik.uni-siegen.de/usi/data_wesad.html>
+
+WESAD serves as a positive control. A null result is only informative if the
+same pipeline can detect an effect where one exists, and WESAD induces
+sympathetic arousal deliberately rather than incidentally.
 
 Extract so that each subject's pickle sits at `PPG_FieldStudy/S{n}/S{n}.pkl`.
 The archives are large (~1.4 GB per subject once extracted); `dalia_features.py`
@@ -37,6 +48,9 @@ reference in Section 4.6 of the paper.
 | `dalia_features.py` | Reads the per-subject pickles; builds 60 s / 10 s-hop windows; RR-interval cleaning, HRV, EDA tonic/phasic split, gravity-removed motion, wrist-PPG peak detection |
 | `dalia_analysis.py` | Descriptives, pooled vs within-subject correlations, LOSO and 5-fold regression over four nested feature sets, per-subject breakdown, permutation importance |
 | `ppg_coverage_sweep.py` | Sweeps the artifact-rejection threshold across all 15 subjects, producing the accuracy–coverage trade-off of Table 5 |
+| `wesad_features.py` | WESAD windows: Pan–Tompkins R-peak detection (that dataset ships no peak indices), condition-pure windowing, and the three validation gates that must pass before any result is read |
+| `wesad_analysis.py` | Pooled vs within-condition correlations, LOSO, leave-one-condition-out, permutation importance, and the wrist-vs-chest EDA agreement ceiling |
+| `make_fig5.py` | Figure 5, the agreement ceiling and the importance reversal between datasets |
 | `make_figures.py` | Figures 1–3 (600 dpi, TrueType-embedded, colourblind-safe) |
 | `make_fig4.py` | Figure 4, the accuracy–coverage trade-off |
 | `dalia_figs.py` | Supporting exploratory plots |
