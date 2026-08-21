@@ -170,6 +170,6 @@ print(f"positive in {int((r_ws > 0).sum())}/{len(r_ws)} subjects")
 print("\nper condition:")
 for c, g in df.groupby("condition"):
     print(f"  {c:<12}{g.wrist_eda.corr(g.chest_eda):+.3f}  (n={len(g)})")
-print("\nThis is the ceiling: if two electrodes both measuring skin "
-      "conductance\nagree only this well, an estimate from cardiac signals "
-      "cannot do better.")
+print("\nThis is a practical benchmark, not a formal bound: if two electrodes "
+      "both measuring skin\nconductance agree only this well, an estimate from "
+      "cardiac signals is unlikely to do better.")

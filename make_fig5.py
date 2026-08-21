@@ -1,5 +1,5 @@
 """
-Figure 5 -- the ceiling, and the importance reversal between datasets.
+Figure 5 -- the agreement limit, and the importance reversal between datasets.
 
 Panel (a) is the paper's most consequential single number made visible: two
 electrodes recording skin conductance from the same participant at the same
