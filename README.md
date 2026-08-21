@@ -1,8 +1,8 @@
-# Bounds on wearable EDA estimation — analysis code
+﻿# Bounds on wearable EDA estimation — analysis code
 
 Code and derived features for:
 
-> Huang, S.-F. *Bounds on Estimating Electrodermal Activity from Wrist-Available
+> Huang, S.-F.; Huang, Y.-P. *Bounds on Estimating Electrodermal Activity from Wrist-Available
 > Signals: Evidence from Two Public Datasets and a Paired-Measurement Ceiling.*
 
 The study asks how much wrist electrodermal activity (EDA) can be recovered from
@@ -139,3 +139,4 @@ matplotlib 3.11.1. Older versions are likely fine; the pins in
 
 MIT — see `LICENSE`. PPG-DaLiA itself is distributed under its own terms by the
 UCI Machine Learning Repository; cite Reiss et al. (2019) if you use it.
+
