@@ -1,9 +1,9 @@
-﻿# Bounds on wearable EDA estimation — analysis code
+﻿# Estimating wrist EDA from cardiac and motion signals — analysis code
 
 Code and derived features for:
 
-> Huang, S.-F.; Huang, Y.-P. *Bounds on Estimating Electrodermal Activity from Wrist-Available
-> Signals: Evidence from Two Public Datasets and a Paired-Measurement Ceiling.*
+> Huang, S.-F.; Huang, Y.-P. *Estimating Wrist Electrodermal Activity from Cardiac and Motion
+> Signals: Evidence from Two Public Datasets and a Site-Specific Agreement Limit.*
 
 The study asks how much wrist electrodermal activity (EDA) can be recovered from
 signals a standard wrist wearable already provides — heart rate, heart rate
@@ -18,10 +18,11 @@ nonetheless improves on predicting each participant's own mean by only 11.9%,
 sits mostly between protocol conditions rather than within them, and transfers
 to no unseen condition (leave-one-condition-out R² = −0.75).
 
-A ceiling explains the shortfall. Wrist and chest EDA, recorded simultaneously
-and both measured directly, correlate at only r = 0.485 — falling to 0.378 under
-stress, and negative in one participant. No indirect estimate of skin conductance
-at one site can exceed what direct measurement at another achieves.
+One contributing factor: wrist and chest EDA, recorded simultaneously and both
+measured directly, correlate at only r = 0.485 — falling to 0.378 under stress,
+and negative in one participant. This is not a formal mathematical bound, but a
+practical benchmark that neither the cardiac- nor the motion-based estimate in
+this study approached.
 
 ## Data
 
@@ -32,7 +33,7 @@ Two public datasets, neither redistributed here.
 
 **WESAD** — laboratory, 15 adults, Trier Social Stress Test protocol. Same
 instrument pair (chest RespiBAN, wrist Empatica E4), and additionally carries
-chest EDA, which is what makes the agreement ceiling in the paper measurable.
+chest EDA, which is what makes the agreement limit in the paper measurable.
 No registration or agreement is required; the licence permits scientific
 non-commercial use with credit to the dataset authors.
 <https://ubi29.informatik.uni-siegen.de/usi/data_wesad.html>
@@ -60,8 +61,8 @@ reference in Section 4.6 of the paper.
 | `dalia_analysis.py` | Descriptives, pooled vs within-subject correlations, LOSO and 5-fold regression over four nested feature sets, per-subject breakdown, permutation importance |
 | `ppg_coverage_sweep.py` | Sweeps the artifact-rejection threshold across all 15 subjects, producing the accuracy–coverage trade-off of Table 5 |
 | `wesad_features.py` | WESAD windows: Pan–Tompkins R-peak detection (that dataset ships no peak indices), condition-pure windowing, and the three validation gates that must pass before any result is read |
-| `wesad_analysis.py` | Pooled vs within-condition correlations, LOSO, leave-one-condition-out, permutation importance, and the wrist-vs-chest EDA agreement ceiling |
-| `make_fig5.py` | Figure 5, the agreement ceiling and the importance reversal between datasets |
+| `wesad_analysis.py` | Pooled vs within-condition correlations, LOSO, leave-one-condition-out, permutation importance, and the wrist-vs-chest EDA agreement limit |
+| `make_fig5.py` | Figure 5, the agreement limit and the importance reversal between datasets |
 | `make_figures.py` | Figures 1–3 (600 dpi, TrueType-embedded, colourblind-safe) |
 | `make_fig4.py` | Figure 4, the accuracy–coverage trade-off |
 | `dalia_figs.py` | Supporting exploratory plots |
