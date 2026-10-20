@@ -62,6 +62,7 @@ reference in Section 4.6 of the paper.
 | `ppg_coverage_sweep.py` | Sweeps the artifact-rejection threshold across all 15 subjects, producing the accuracy–coverage trade-off of Table 5 |
 | `wesad_features.py` | WESAD windows: Pan–Tompkins R-peak detection (that dataset ships no peak indices), condition-pure windowing, and the three validation gates that must pass before any result is read |
 | `wesad_analysis.py` | Pooled vs within-condition correlations, LOSO, leave-one-condition-out, permutation importance, and the wrist-vs-chest EDA agreement limit |
+| `wesad_condition_baseline.py` | Condition recognition versus EDA reconstruction (Section 4.7.2): condition-only baseline, within-condition performance, and the model refitted after removing condition-level differences |
 | `make_fig5.py` | Figure 5, the agreement limit and the importance reversal between datasets |
 | `make_figures.py` | Figures 1–3 (600 dpi, TrueType-embedded, colourblind-safe) |
 | `make_fig4.py` | Figure 4, the accuracy–coverage trade-off |
